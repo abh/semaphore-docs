@@ -135,6 +135,5 @@ Data transfer security is ensured by using asymmetric encryption: the server enc
 
 Public and private keys are generated automatically when the runner registers on the server.
 
-<div class="warning">
+:::warning
   Use the HTTPS protocol for communication between the server and the runner, especially if they are not on the same private network.
-</div>
