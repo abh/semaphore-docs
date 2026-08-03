@@ -47,7 +47,7 @@ Use this as a simple “happy path” to get productive quickly:
    - Run and monitor: [Tasks](/user-guide/tasks)
 6. **Automate & operationalize**
    - Schedule runs: [Schedules](/user-guide/schedules)
-   - Control access: [RBAC](/user-guide/rbac)
+   - Control access: [Teams and custom roles](/user-guide/team)
    - Get alerts: [Notifications](/admin-guide/notifications)
 
 ## Key concepts (glossary)

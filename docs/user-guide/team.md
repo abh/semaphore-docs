@@ -67,39 +67,122 @@ Below are detailed descriptions of each role and its permissions.
 Extended RBAC is available in the **Semaphore Enterprise** edition, starting with [Semaphore v2.17](https://semaphoreui.com/releases/semaphore-v2_17).
 :::
 
-![](https://www.semaphoreui.com/uploads/v2.17/roles1.webp)
+Extended RBAC layers additional permissions on top of the four built-in roles. The built-in roles themselves are unchanged. If you do not define custom roles, every project behaves exactly as it does in the community edition.
 
-Extended RBAC layers additional, fine-grained permissions on top of the four built-in roles. The built-in roles themselves are unchanged — if you do not define any custom roles, every project behaves exactly as in the community edition.
-
-With Extended RBAC you can define **custom roles** that grant targeted permissions on specific templates. This lets you give a team member access to just the templates they need, without promoting them to a higher built-in role.
+With Extended RBAC, custom roles can grant individual project-wide permissions. You can also grant a role permissions on selected task templates. This lets you give a team member access to the templates they need without promoting them to a higher built-in role.
 
 ### Custom roles
 
-A custom role is a named set of permissions. Each role has a scope:
+A custom role is a named set of permissions that supplements a member's built-in project role. Every team member keeps their built-in role. Custom roles add permissions to it.
+
+Custom roles are available at two scopes:
 
 - **Global roles** are defined at the instance level and can be used in any project.
 - **Project roles** are defined inside a single project and are available only within that project.
 
-Custom roles are managed from the Semaphore UI and through the REST API.
+### Permission levels
 
-### Available permissions
+Custom roles grant permissions at two levels:
 
-In the current release, custom roles support **template-level permissions** only. A role can be attached to one or more task templates and control actions such as viewing, running, or managing those templates.
+- **Project-wide permissions** extend a user's access throughout a project. You choose these when you create the role.
+- **Template permissions** control actions on one task template. You choose these on that template's **Permissions** tab after adding the role to the template.
+
+### Create a custom role
+
+Choose the scope before opening the role form.
+
+#### Global role
+
+Global roles are created once and can be assigned to users in any project. Only an instance administrator can create a global role.
+
+Open the bottom-left admin menu and select **Roles**.
+
+On the instance-wide list of roles, select **New Role**.
+
+![Open Roles from the administrator menu, then select New Role](/assets/custom-roles-navigation-to-new-role-annotated-v4.png)
+
+#### Project role
+
+Project roles are available only in the project where they are created. Project Owners and Managers can create them.
+
+1. Open the project and go to **Team** > **Roles**.
+2. Select **New Role**.
+
+The **Roles** tab is empty until the first project role is created. It lists all project roles and contains the **New Role** button.
+
+![](https://www.semaphoreui.com/uploads/v2.17/roles1.webp)
+
+### Configure a custom role
+
+Both paths open the same role form. Configure the role to match the access your team member needs.
+
+![New Role dialog with fields and permission checkboxes](/assets/custom-roles-global-role-form.jpg)
+
+| Field | Description |
+| --- | --- |
+| **Name** | A human-readable label for the role. |
+| **Slug** | A unique technical identifier used to reference the role. Use lowercase letters, numbers, underscores, or hyphens, for example `release_operator`. |
+| **Permissions** | The project-wide permissions granted by the role. |
+
+#### Project-wide permissions
+
+Choose only the project-wide permissions that the role needs:
+
+| Permission | Description |
+| --- | --- |
+| **Can run project tasks** | Run project tasks. |
+| **Can update project** | Edit basic project information in **Dashboard** > **Settings**. |
+| **Can manage project resources** | Manage project resources, such as task templates, repositories, inventory, environments, Key Store entries, schedules, integrations, and runners. This is project-wide access. It cannot be limited to individual non-template resources. |
+| **Can manage project users** | Manage project membership and role assignments. |
+
+Project-wide permissions cannot be limited to a single inventory, repository, environment, or Key Store entry. Task templates are the only resource type that supports granular role assignments.
+
+:::tip Template-only access
+To create a granular role that adds access only to selected task templates, leave every project-wide permission unchecked. The role then adds no project-wide permissions of its own. Add it to the required templates and choose only the actions that role needs there.
+:::
+
+Select **Save** when the role configuration is ready.
+
+### Configure access to specific task templates
+
+Template permissions add access on selected task templates. The example below uses a custom role with no project-wide permissions. This least-privilege configuration is useful when a team member needs only selected template actions. You can also add template permissions to a role that already grants project-wide access.
+
+**Open the required template**
+
+1. Open **Task Templates** and select the target template.
+2. Open the **Permissions** tab.
+
+The **Permissions** tab lists the roles already added to the template.
 
 ![](https://www.semaphoreui.com/uploads/v2.17/roles2.webp)
 
-Permissions for other project resources (inventory, repositories, environments, key store, etc.) continue to follow the member's built-in role. Support for additional resource types may be added in future releases.
+**Add the role and grant template permissions**
 
-### How assignment works
+1. Select **Add Role** and choose the custom role to add to this template.
+2. Select only the template permissions that the role needs, such as **Can run tasks** or **Can update the template**.
 
-1. A custom role is defined with the desired template permissions (globally by an administrator, or inside a project by an Owner or Manager).
-2. The role is attached to the relevant templates.
-3. A team member is assigned to the role. Their effective permissions are the union of their built-in role and every custom role they hold.
+This example uses a previously created role with no project-wide permissions. You can choose any custom role that is available in the project.
+
+![Template permissions dialog with the required controls highlighted](/assets/custom-roles-template-permissions-annotated.png)
+
+To grant the same role access to additional templates, repeat these steps for each template.
+
+:::note Existing project access
+Template permissions are additive. They add access without replacing or reducing access from a user's built-in role or other custom roles. If a user can already run or update all task templates, adding a template-specific role does not narrow that access.
+:::
+
+### Assign a custom role in a project
+
+After creating and configuring a global or project role, assign it to the required team member:
+
+1. Open the project and go to **Team**.
+2. Expand **Roles** next to the required user.
+3. Select the custom role.
 
 ### Not currently supported
 
 - **LDAP / OIDC group mapping.** Custom roles are assigned per user. Mapping external directory groups to custom roles is not supported.
-- **Granular permissions for non-template resources.** Only templates can be governed by custom roles today.
+- **Granular permissions for non-template resources.** Only templates can be governed by custom roles at the individual-resource level today.
 
 ---
 
@@ -149,7 +232,7 @@ Semaphore UI prevents the removal of an Owner if it would leave the project with
 No. Guests have read‐only access and cannot trigger or manage tasks. In the Enterprise edition you can grant a Guest permission to run individual templates through a [custom role](#extended-rbac-enterprise).
 
 ### 6. Do custom roles replace the built-in roles?
-No. Custom roles extend the built-in roles with additional template-level permissions. Every team member still has exactly one built-in role.
+No. Custom roles extend the built-in roles with additional project and template-level permissions. Every team member still has exactly one built-in role.
 
 ### 7. Is Extended RBAC available in the community edition?
 No. Extended RBAC requires a **Semaphore Enterprise** subscription.
