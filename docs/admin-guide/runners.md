@@ -11,6 +11,8 @@ Semaphore runners operate on the same principle as GitLab or GitHub Actions runn
 
 For end users, working with Semaphore with or without runners appears the same.
 
+When no runners are defined, the Semaphore UI server itself acts as a runner. All tasks execute within the context of the Semaphore UI server, having access to the file system.
+
 Using runners offers the following advantages:
 - Executing tasks more securely. For instance, a runner can be located within a closed subnet or isolated docker container.
 - Distributing the workload across multiple servers. You can start multiple runners, and tasks will be randomly distributed among them.
@@ -19,7 +21,7 @@ Using runners offers the following advantages:
 
 ### Set up a server
 
-To set up the server for working with running you should add following option to your Semaphore server configuration:
+To set up the server for working with runners you should add following option to your Semaphore server configuration:
 
 ```json
 {
@@ -107,15 +109,15 @@ Now you can start the runner with the command:
 semaphore runner start --config /path/to/your/config/file.json
 ```
 
-Your runner is ready to execute tasks ;)
+Your runner is ready to execute tasks.
 
 ### Runner tags (Pro)
 
 You can assign one or more tags to a project runner. Templates can then require a tag so tasks run only on matching runners. Configure tags when adding a runner in the project UI, and set the required tag in the template settings.
 
-## Runner desregistaration
+## Runner deregistration
 
-You can remove runner using the web interfance.
+You can remove a runner using the web interface.
 
 ![Runner Image](https://github.com/user-attachments/assets/431291eb-8f48-42c1-b56e-87fc8e9ba040)
 
@@ -133,6 +135,5 @@ Data transfer security is ensured by using asymmetric encryption: the server enc
 
 Public and private keys are generated automatically when the runner registers on the server.
 
-<div class="warning">
+:::warning
   Use the HTTPS protocol for communication between the server and the runner, especially if they are not on the same private network.
-</div>

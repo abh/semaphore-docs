@@ -41,11 +41,24 @@ export SEMAPHORE_TLS_CERT_FILE=/path/to/cert/example.com.cert
 export SEMAPHORE_TLS_KEY_FILE=/path/to/key/example.com.key
 ```
 
+### HTTP-to-HTTPS redirect listener
+
+To configure the HTTP-to-HTTPS redirect listener, add one of the following fields to the `tls` block in `config.json`, or set the corresponding environment variable.
+
+Use `http_redirect_addr` to bind the listener to a specific IP address and port. Use `http_redirect_port` to listen on all network interfaces. These options are mutually exclusive.
+
+| Bind HTTP redirect listener to | `config.json` (`tls` block) | Environment variable |
+| --- | --- | --- |
+| Specific IP address and port | `"http_redirect_addr": "172.29.184.90:80"` | `SEMAPHORE_TLS_HTTP_REDIRECT_ADDR=172.29.184.90:80` |
+| All network interfaces on a port | `"http_redirect_port": 80` | `SEMAPHORE_TLS_HTTP_REDIRECT_PORT=80` |
+
+### Reverse proxy
+
 Alternatively, you can use a reverse proxy in front of Semaphore to handle secure connections. For example:
 
-* [NGINX](/nginx)
-* [Apache](/apache)
-* [Caddy](/caddy)
+* [NGINX](/admin-guide/reverse-proxy/nginx)
+* [Apache](/admin-guide/reverse-proxy/apache)
+* [Caddy](/admin-guide/reverse-proxy/caddy)
  
 
 ### Self-signed SSL certificate

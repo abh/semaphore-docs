@@ -63,7 +63,10 @@ const sidebars = {
           label: 'Security',
           link: { type: 'doc', id: 'admin-guide/security' },
           items: [
+            'admin-guide/security/encryption',
+            'admin-guide/security/database',
             'admin-guide/security/network',
+            'admin-guide/security/jwt',
             // 'admin-guide/security/kerberos',
           ],
         },
@@ -73,6 +76,7 @@ const sidebars = {
           link: { type: 'doc', id: 'admin-guide/cli' },
           items: [
             'admin-guide/cli/users',
+            'admin-guide/cli/projects',
             'admin-guide/cli/vaults',
             'admin-guide/cli/runners',
             'admin-guide/cli/migrations',
@@ -80,6 +84,14 @@ const sidebars = {
         },
         'admin-guide/ldap',
         'admin-guide/jwt-proxy-auth',
+        {
+          type: 'category',
+          label: 'LDAP and AD',
+          link: { type: 'doc', id: 'admin-guide/ldap' },
+          items: [
+            'admin-guide/ldap/ad',
+          ],
+        },
         {
           type: 'category',
           label: 'OpenID Connect',
@@ -93,6 +105,7 @@ const sidebars = {
             'admin-guide/openid/authentik',
             'admin-guide/openid/keycloak',
             'admin-guide/openid/okta',
+            'admin-guide/openid/pingfederate',
             'admin-guide/openid/azure',
             'admin-guide/openid/zitadel',
           ],
@@ -101,7 +114,9 @@ const sidebars = {
         'admin-guide/cicd',
         'admin-guide/runners',
         'admin-guide/logs',
+        'admin-guide/metrics',
         'admin-guide/ha',
+        'admin-guide/license',
         {
           type: 'category',
           label: 'Notifications',
@@ -144,11 +159,12 @@ const sidebars = {
           items: [
             'user-guide/task-templates/survey-vars',
             'user-guide/task-templates/prompts',
+            'user-guide/task-templates/jwt',
           ],
         },
         {
           type: 'category',
-          label: 'Supported Apps',
+          label: 'Apps',
           link: { type: 'generated-index' },
           items: [
             'user-guide/apps/ansible',
@@ -174,7 +190,9 @@ const sidebars = {
           link: { type: 'doc', id: 'user-guide/key-store' },
           items: [
             'user-guide/key-store/hashicorp-vault',
+            'user-guide/key-store/openbao',
             'user-guide/key-store/devolutions-server',
+            'user-guide/key-store/secret-sync',
           ],
         },
         {
@@ -183,6 +201,7 @@ const sidebars = {
           items: [
             'user-guide/inventory/kerberos',
             'user-guide/inventory/netbox-dynamic-inventory',
+            'user-guide/inventory/consul-dynamic-inventory',
           ],
         },
         'user-guide/environment',
